@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAE Learning Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── KAE Brand Variables ───────────────────────────────────── */
+:root {
+  --navy:       #0B1F3A;
+  --navy-mid:   #142B4E;
+  --teal:       #00B4A6;
+  --teal-light: #00E5C8;
+  --gold:       #C9A84C;
+  --gold-light: #E8C96A;
+  --slate:      #F4F6F9;
+  --slate-dark: #E2E8F0;
+  --text:       #1A2B3C;
+  --text-mid:   #445566;
+  --text-light: #7A8FA6;
+  --white:      #FFFFFF;
+  --success:    #10B981;
+  --danger:     #EF4444;
+
+  --radius:     12px;
+  --shadow:     0 4px 24px rgba(11,31,58,.10);
+  --shadow-lg:  0 12px 48px rgba(11,31,58,.16);
+
+  --font-head:  'DM Serif Display', Georgia, serif;
+  --font-body:  'DM Sans', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--slate);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── Top Bar ───────────────────────────────────────────────── */
+.topbar {
+  background: var(--navy);
+  padding: 0 24px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 16px rgba(0,0,0,.25);
+}
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.topbar-logo {
+  width: 28px;
+  height: 28px;
+  background: var(--teal);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  font-size: 14px;
+  color: var(--navy);
+  font-weight: bold;
+}
+.topbar-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: .3px;
+}
+.topbar-sub {
+  font-size: 11px;
+  color: var(--teal);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.topbar-badge {
+  background: rgba(0,180,166,.15);
+  border: 1px solid rgba(0,180,166,.3);
+  color: var(--teal);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: .5px;
+}
+
+/* ── Layout ────────────────────────────────────────────────── */
+.layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: calc(100vh - 56px);
+}
+
+/* ── Sidebar ───────────────────────────────────────────────── */
+.sidebar {
+  background: var(--white);
+  border-right: 1px solid var(--slate-dark);
+  padding: 20px 0;
+  overflow-y: auto;
+  position: sticky;
+  top: 56px;
+  height: calc(100vh - 56px);
+}
+
+.sidebar-section {
+  padding: 0 16px 8px;
+}
+.sidebar-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 12px 8px 6px;
+}
+
+/* Grade toggle */
+.grade-toggle {
+  display: flex;
+  background: var(--slate);
+  border-radius: 8px;
+  padding: 3px;
+  margin-bottom: 12px;
+}
+.grade-btn {
+  flex: 1;
+  padding: 7px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-mid);
+  cursor: pointer;
+  transition: all .2s;
+}
+.grade-btn.active {
+  background: var(--navy);
+  color: var(--white);
+  box-shadow: 0 2px 8px rgba(11,31,58,.2);
+}
+
+/* Type toggle */
+.type-toggle {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.type-btn {
+  flex: 1;
+  padding: 6px 8px;
+  border: 1.5px solid var(--slate-dark);
+  background: var(--white);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-mid);
+  cursor: pointer;
+  transition: all .2s;
+  text-align: center;
+}
+.type-btn.active {
+  border-color: var(--teal);
+  background: rgba(0,180,166,.08);
+  color: var(--teal);
+}
+
+/* Subject nav */
+.subject-nav { display: flex; flex-direction: column; gap: 2px; }
+.subject-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .15s;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+}
+.subject-item:hover { background: var(--slate); }
+.subject-item.active {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+}
+.subject-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+.subject-info { flex: 1; min-width: 0; }
+.subject-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.subject-item.active .subject-name { color: var(--white); }
+.subject-count {
+  font-size: 10px;
+  color: var(--text-light);
+  margin-top: 1px;
+}
+.subject-item.active .subject-count { color: rgba(255,255,255,.6); }
+
+/* ── Main Content ──────────────────────────────────────────── */
+.main { padding: 24px; overflow-y: auto; }
+
+/* Hero banner */
+.hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 60%, #0B3D2E 100%);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(0,229,200,.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--teal);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.hero-title {
+  font-family: var(--font-head);
+  font-size: 26px;
+  color: var(--white);
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+.hero-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,.6);
+}
+
+/* Search */
+.search-bar {
+  position: relative;
+  margin-bottom: 20px;
+}
+.search-bar input {
+  width: 100%;
+  padding: 12px 16px 12px 42px;
+  border: 1.5px solid var(--slate-dark);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text);
+  background: var(--white);
+  outline: none;
+  transition: border-color .2s;
+}
+.search-bar input:focus { border-color: var(--teal); }
+.search-bar .search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+  pointer-events: none;
+}
+
+/* Content grid */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+/* Content card */
+.content-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1.5px solid var(--slate-dark);
+  overflow: hidden;
+  transition: all .2s;
+  cursor: pointer;
+  position: relative;
+}
+.content-card:hover {
+  border-color: var(--teal);
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+.card-stripe {
+  height: 4px;
+}
+.card-body { padding: 16px; }
+.card-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+.badge-notes {
+  background: rgba(201,168,76,.12);
+  color: var(--gold);
+}
+.badge-assessment {
+  background: rgba(0,180,166,.12);
+  color: var(--teal);
+}
+.card-title {
+  font-family: var(--font-head);
+  font-size: 16px;
+  color: var(--navy);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.card-meta {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-bottom: 14px;
+}
+.card-actions {
+  display: flex;
+  gap: 8px;
+}
+.btn-view {
+  flex: 1;
+  padding: 8px 12px;
+  background: var(--navy);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity .2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  text-decoration: none;
+}
+.btn-view:hover { opacity: .85; }
+.btn-download {
+  padding: 8px 12px;
+  background: transparent;
+  color: var(--text-mid);
+  border: 1.5px solid var(--slate-dark);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+}
+.btn-download:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+/* Viewer overlay */
+.viewer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(11,31,58,.7);
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.viewer-overlay.open { display: flex; }
+.viewer-modal {
+  background: var(--white);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 960px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+}
+.viewer-header {
+  background: var(--navy);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.viewer-title {
+  font-family: var(--font-head);
+  font-size: 18px;
+  color: var(--white);
+}
+.viewer-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.viewer-btn {
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: opacity .2s;
+}
+.viewer-btn:hover { opacity: .85; }
+.viewer-btn-dl {
+  background: var(--gold);
+  color: var(--navy);
+}
+.viewer-btn-close {
+  background: rgba(255,255,255,.1);
+  color: var(--white);
+}
+.viewer-frame {
+  flex: 1;
+  border: none;
+  background: var(--white);
+}
+
+/* Empty state */
+.empty-state {
+  grid-column: 1/-1;
+  text-align: center;
+  padding: 64px 24px;
+  color: var(--text-light);
+}
+.empty-icon { font-size: 48px; margin-bottom: 12px; }
+.empty-title { font-family: var(--font-head); font-size: 20px; color: var(--text-mid); margin-bottom: 6px; }
+.empty-sub { font-size: 14px; }
+
+/* Section heading */
+.section-heading {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--slate-dark);
+}
+
+/* Upload instruction card */
+.upload-card {
+  grid-column: 1/-1;
+  background: linear-gradient(135deg, rgba(0,180,166,.05), rgba(201,168,76,.05));
+  border: 1.5px dashed var(--teal);
+  border-radius: var(--radius);
+  padding: 24px;
+  text-align: center;
+}
+.upload-card-title {
+  font-family: var(--font-head);
+  font-size: 16px;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+.upload-card-sub {
+  font-size: 13px;
+  color: var(--text-mid);
+  margin-bottom: 16px;
+}
+.upload-path {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  background: var(--navy);
+  color: var(--teal);
+  padding: 8px 16px;
+  border-radius: 6px;
+  display: inline-block;
+  margin: 4px 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar {
+    position: static;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--slate-dark);
+  }
+  .content-grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Top Bar ─────────────────────────────────────────────── -->
+<div class="topbar">
+  <div class="topbar-brand">
+    <div class="topbar-logo">K</div>
+    <div>
+      <div class="topbar-name">Kgatelopele Academy</div>
+      <div class="topbar-sub">Learning Hub</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <span class="topbar-badge" id="content-count">Loading...</span>
+  </div>
+</div>
+
+<!-- ── Layout ──────────────────────────────────────────────── -->
+<div class="layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Grade</div>
+      <div class="grade-toggle">
+        <button class="grade-btn active" onclick="setGrade('grade-10')">Grade 10</button>
+        <button class="grade-btn" onclick="setGrade('grade-11')">Grade 11</button>
+        <button class="grade-btn" onclick="setGrade('grade-12')">Grade 12</button>
+      </div>
+
+      <div class="sidebar-label">Type</div>
+      <div class="type-toggle">
+        <button class="type-btn active" onclick="setType('all')">All</button>
+        <button class="type-btn" onclick="setType('notes')">📖 Notes</button>
+        <button class="type-btn" onclick="setType('assessment')">✏️ Tests</button>
+      </div>
+
+      <div class="sidebar-label">Subject</div>
+      <div class="subject-nav" id="subject-nav"></div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="hero">
+      <div class="hero-eyebrow">KAE Learning Hub</div>
+      <h1 class="hero-title" id="hero-title">Select a subject</h1>
+      <p class="hero-sub" id="hero-sub">Choose a subject and grade from the left panel</p>
+    </div>
+
+    <div class="search-bar">
+      <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+      </svg>
+      <input type="text" id="search-input" placeholder="Search topics, notes, assessments…" oninput="renderCards()">
+    </div>
+
+    <div class="section-heading" id="section-heading">All Content</div>
+    <div class="content-grid" id="content-grid">
+      <div class="empty-state">
+        <div class="empty-icon">📚</div>
+        <div class="empty-title">Welcome to the Learning Hub</div>
+        <div class="empty-sub">Select a subject from the left panel to browse notes and assessments</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ── Viewer Overlay ─────────────────────────────────────── -->
+<div class="viewer-overlay" id="viewer-overlay" onclick="handleOverlayClick(event)">
+  <div class="viewer-modal">
+    <div class="viewer-header">
+      <div class="viewer-title" id="viewer-title">Loading…</div>
+      <div class="viewer-controls">
+        <button class="viewer-btn viewer-btn-dl" id="viewer-dl-btn" onclick="downloadCurrent()">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Download PDF
+        </button>
+        <button class="viewer-btn viewer-btn-close" onclick="closeViewer()">✕ Close</button>
+      </div>
+    </div>
+    <iframe class="viewer-frame" id="viewer-frame" src="" title="Content Viewer"></iframe>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// CONTENT REGISTRY
+// Add your HTML files here following the pattern below.
+// Files must exist at the path specified under /content/
+// ═══════════════════════════════════════════════════════════
+
+var CONTENT = [
+
+
+  // ── MATHEMATICS ──────────────────────────────────────────
+  // Grade 10
+  { id: 'maths-10-algebra-notes',        subject: 'mathematics',         grade: 'grade-10', type: 'notes',      title: 'Algebra & Equations',           topics: 'factorising, quadratic, inequalities', file: 'content/mathematics/grade-10/algebra-notes.html' },
+  { id: 'maths-10-algebra-test',         subject: 'mathematics',         grade: 'grade-10', type: 'assessment', title: 'Algebra & Equations — Assessment', topics: 'factorising, quadratic, inequalities', file: 'content/mathematics/grade-10/algebra-assessment.html' },
+  { id: 'maths-10-functions-notes',      subject: 'mathematics',         grade: 'grade-10', type: 'notes',      title: 'Functions & Graphs',            topics: 'linear, quadratic, hyperbola',     file: 'content/mathematics/grade-10/functions-notes.html' },
+  { id: 'maths-10-functions-test',       subject: 'mathematics',         grade: 'grade-10', type: 'assessment', title: 'Functions & Graphs — Assessment', topics: 'linear, quadratic, hyperbola',   file: 'content/mathematics/grade-10/functions-assessment.html' },
+  { id: 'maths-10-trig-notes',           subject: 'mathematics',         grade: 'grade-10', type: 'notes',      title: 'Trigonometry',                  topics: 'sin, cos, tan, special angles',    file: 'content/mathematics/grade-10/trigonometry-notes.html' },
+  // Grade 11
+  { id: 'maths-11-functions-notes',      subject: 'mathematics',         grade: 'grade-11', type: 'notes',      title: 'Functions & Graphs',            topics: 'parabola, hyperbola, exponential', file: 'content/mathematics/grade-11/functions-notes.html' },
+  { id: 'maths-11-functions-test',       subject: 'mathematics',         grade: 'grade-11', type: 'assessment', title: 'Functions & Graphs — Assessment', topics: 'parabola, hyperbola, exponential', file: 'content/mathematics/grade-11/functions-assessment.html' },
+  { id: 'maths-11-trig-notes',           subject: 'mathematics',         grade: 'grade-11', type: 'notes',      title: 'Trigonometry',                  topics: 'sin, cos, tan, identities',        file: 'content/mathematics/grade-11/trigonometry-notes.html' },
+  { id: 'maths-11-trig-test',            subject: 'mathematics',         grade: 'grade-11', type: 'assessment', title: 'Trigonometry — Assessment',      topics: 'sin, cos, tan, identities',        file: 'content/mathematics/grade-11/trigonometry-assessment.html' },
+  // Grade 12
+  { id: 'maths-12-calculus-notes',       subject: 'mathematics',         grade: 'grade-12', type: 'notes',      title: 'Differential Calculus',         topics: 'derivatives, gradient, cubic',     file: 'content/mathematics/grade-12/calculus-notes.html' },
+  { id: 'maths-12-calculus-test',        subject: 'mathematics',         grade: 'grade-12', type: 'assessment', title: 'Differential Calculus — Assessment', topics: 'derivatives, gradient, cubic',  file: 'content/mathematics/grade-12/calculus-assessment.html' },
+  { id: 'maths-12-probability-notes',    subject: 'mathematics',         grade: 'grade-12', type: 'notes',      title: 'Probability & Counting',        topics: 'venn, tree, combinations',         file: 'content/mathematics/grade-12/probability-notes.html' },
+
+
+  // ── PHYSICAL SCIENCE ─────────────────────────────────────
+  // Grade 10
+  { id: 'sci-10-matter-notes',           subject: 'physical-science',    grade: 'grade-10', type: 'notes',      title: 'Matter & Materials',            topics: 'atoms, periodic table, bonding',   file: 'content/physical-science/grade-10/matter-notes.html' },
+  { id: 'sci-10-matter-test',            subject: 'physical-science',    grade: 'grade-10', type: 'assessment', title: 'Matter & Materials — Assessment', topics: 'atoms, periodic table, bonding', file: 'content/physical-science/grade-10/matter-assessment.html' },
+  { id: 'sci-10-motion-notes',           subject: 'physical-science',    grade: 'grade-10', type: 'notes',      title: 'Motion in One Dimension',       topics: 'speed, velocity, acceleration',    file: 'content/physical-science/grade-10/motion-notes.html' },
+  { id: 'sci-10-motion-test',            subject: 'physical-science',    grade: 'grade-10', type: 'assessment', title: 'Motion — Assessment',            topics: 'speed, velocity, acceleration',    file: 'content/physical-science/grade-10/motion-assessment.html' },
+  // Grade 11
+  { id: 'sci-11-waves-notes',            subject: 'physical-science',    grade: 'grade-11', type: 'notes',      title: 'Waves, Sound & Light',          topics: 'doppler, diffraction, refraction', file: 'content/physical-science/grade-11/waves-notes.html' },
+  { id: 'sci-11-waves-test',             subject: 'physical-science',    grade: 'grade-11', type: 'assessment', title: 'Waves — Assessment',             topics: 'doppler, diffraction, refraction', file: 'content/physical-science/grade-11/waves-assessment.html' },
+  { id: 'sci-11-electricity-notes',      subject: 'physical-science',    grade: 'grade-11', type: 'notes',      title: 'Electricity & Magnetism',       topics: 'ohm, circuits, resistance',        file: 'content/physical-science/grade-11/electricity-notes.html' },
+  // Grade 12
+  { id: 'sci-12-electrostatics-notes',   subject: 'physical-science',    grade: 'grade-12', type: 'notes',      title: 'Electrostatics',                topics: 'coulomb, electric field, potential',file: 'content/physical-science/grade-12/electrostatics-notes.html' },
+  { id: 'sci-12-electrostatics-test',    subject: 'physical-science',    grade: 'grade-12', type: 'assessment', title: 'Electrostatics — Assessment',    topics: 'coulomb, electric field, potential',file: 'content/physical-science/grade-12/electrostatics-assessment.html' },
+  { id: 'sci-12-organic-notes',          subject: 'physical-science',    grade: 'grade-12', type: 'notes',      title: 'Organic Chemistry',             topics: 'hydrocarbons, reactions, polymers', file: 'content/physical-science/grade-12/organic-chemistry-notes.html' },
+
+
+  // ── ACCOUNTING ───────────────────────────────────────────
+  // Grade 10
+  { id: 'acc-10-bookkeeping-notes',      subject: 'accounting',          grade: 'grade-10', type: 'notes',      title: 'Bookkeeping Basics',            topics: 'source documents, journals, ledger', file: 'content/accounting/grade-10/bookkeeping-notes.html' },
+  { id: 'acc-10-bookkeeping-test',       subject: 'accounting',          grade: 'grade-10', type: 'assessment', title: 'Bookkeeping — Assessment',       topics: 'source documents, journals, ledger', file: 'content/accounting/grade-10/bookkeeping-assessment.html' },
+  { id: 'acc-10-cashjournal-notes',      subject: 'accounting',          grade: 'grade-10', type: 'notes',      title: 'Cash Journals',                 topics: 'CRJ, CPJ, petty cash',            file: 'content/accounting/grade-10/cash-journals-notes.html' },
+  // Grade 11
+  { id: 'acc-11-ledger-notes',           subject: 'accounting',          grade: 'grade-11', type: 'notes',      title: 'General Ledger',                topics: 'debit, credit, trial balance',     file: 'content/accounting/grade-11/ledger-notes.html' },
+  { id: 'acc-11-ledger-test',            subject: 'accounting',          grade: 'grade-11', type: 'assessment', title: 'General Ledger — Assessment',    topics: 'debit, credit, trial balance',     file: 'content/accounting/grade-11/ledger-assessment.html' },
+  // Grade 12
+  { id: 'acc-12-financial-notes',        subject: 'accounting',          grade: 'grade-12', type: 'notes',      title: 'Financial Statements',          topics: 'income statement, balance sheet',  file: 'content/accounting/grade-12/financial-statements-notes.html' },
+  { id: 'acc-12-financial-test',         subject: 'accounting',          grade: 'grade-12', type: 'assessment', title: 'Financial Statements — Assessment', topics: 'income statement, balance sheet', file: 'content/accounting/grade-12/financial-statements-assessment.html' },
+  { id: 'acc-12-cashflow-notes',         subject: 'accounting',          grade: 'grade-12', type: 'notes',      title: 'Cash Flow Statements',          topics: 'operating, investing, financing',   file: 'content/accounting/grade-12/cashflow-notes.html' },
+
+
+  // ── ECONOMICS ────────────────────────────────────────────
+  // Grade 10
+  { id: 'eco-10-intro-notes',            subject: 'economics',           grade: 'grade-10', type: 'notes',      title: 'Introduction to Economics',     topics: 'scarcity, opportunity cost, systems', file: 'content/economics/grade-10/intro-notes.html' },
+  { id: 'eco-10-intro-test',             subject: 'economics',           grade: 'grade-10', type: 'assessment', title: 'Introduction — Assessment',      topics: 'scarcity, opportunity cost, systems', file: 'content/economics/grade-10/intro-assessment.html' },
+  { id: 'eco-10-circular-notes',         subject: 'economics',           grade: 'grade-10', type: 'notes',      title: 'Circular Flow of Income',       topics: 'households, firms, government',    file: 'content/economics/grade-10/circular-flow-notes.html' },
+  // Grade 11
+  { id: 'eco-11-demand-notes',           subject: 'economics',           grade: 'grade-11', type: 'notes',      title: 'Demand & Supply',               topics: 'equilibrium, price, elasticity',   file: 'content/economics/grade-11/demand-supply-notes.html' },
+  { id: 'eco-11-demand-test',            subject: 'economics',           grade: 'grade-11', type: 'assessment', title: 'Demand & Supply — Assessment',   topics: 'equilibrium, price, elasticity',   file: 'content/economics/grade-11/demand-supply-assessment.html' },
+  // Grade 12
+  { id: 'eco-12-macro-notes',            subject: 'economics',           grade: 'grade-12', type: 'notes',      title: 'Macroeconomics',                topics: 'GDP, inflation, unemployment',     file: 'content/economics/grade-12/macroeconomics-notes.html' },
+  { id: 'eco-12-macro-test',             subject: 'economics',           grade: 'grade-12', type: 'assessment', title: 'Macroeconomics — Assessment',    topics: 'GDP, inflation, unemployment',     file: 'content/economics/grade-12/macroeconomics-assessment.html' },
+
+
+  // ── MATHEMATICAL LITERACY ─────────────────────────────────
+  // Grade 10
+  { id: 'ml-10-numbers-notes',           subject: 'mathematical-literacy', grade: 'grade-10', type: 'notes',    title: 'Numbers & Operations',          topics: 'percentages, ratios, rates',       file: 'content/mathematical-literacy/grade-10/numbers-notes.html' },
+  { id: 'ml-10-numbers-test',            subject: 'mathematical-literacy', grade: 'grade-10', type: 'assessment',title: 'Numbers & Operations — Assessment', topics: 'percentages, ratios, rates',    file: 'content/mathematical-literacy/grade-10/numbers-assessment.html' },
+  { id: 'ml-10-measurement-notes',       subject: 'mathematical-literacy', grade: 'grade-10', type: 'notes',    title: 'Measurement',                   topics: 'perimeter, area, volume, maps',    file: 'content/mathematical-literacy/grade-10/measurement-notes.html' },
+  // Grade 11
+  { id: 'ml-11-finance-notes',           subject: 'mathematical-literacy', grade: 'grade-11', type: 'notes',    title: 'Personal Finance',              topics: 'interest, tax, budgets',           file: 'content/mathematical-literacy/grade-11/personal-finance-notes.html' },
+  { id: 'ml-11-finance-test',            subject: 'mathematical-literacy', grade: 'grade-11', type: 'assessment',title: 'Personal Finance — Assessment',  topics: 'interest, tax, budgets',           file: 'content/mathematical-literacy/grade-11/personal-finance-assessment.html' },
+  // Grade 12
+  { id: 'ml-12-data-notes',             subject: 'mathematical-literacy', grade: 'grade-12', type: 'notes',    title: 'Data Handling & Probability',   topics: 'mean, median, charts',             file: 'content/mathematical-literacy/grade-12/data-handling-notes.html' },
+  { id: 'ml-12-data-test',              subject: 'mathematical-literacy', grade: 'grade-12', type: 'assessment',title: 'Data Handling — Assessment',     topics: 'mean, median, charts',             file: 'content/mathematical-literacy/grade-12/data-handling-assessment.html' },
+
+
+  // ── GEOGRAPHY ────────────────────────────────────────────
+  // Grade 10
+  { id: 'geo-10-mapwork-notes',          subject: 'geography',           grade: 'grade-10', type: 'notes',      title: 'Mapwork',                       topics: 'contours, coordinates, scale',     file: 'content/geography/grade-10/mapwork-notes.html' },
+  { id: 'geo-10-mapwork-test',           subject: 'geography',           grade: 'grade-10', type: 'assessment', title: 'Mapwork — Assessment',           topics: 'contours, coordinates, scale',     file: 'content/geography/grade-10/mapwork-assessment.html' },
+  { id: 'geo-10-rivers-notes',           subject: 'geography',           grade: 'grade-10', type: 'notes',      title: 'Rivers & Water',                topics: 'drainage, erosion, flooding',      file: 'content/geography/grade-10/rivers-notes.html' },
+  // Grade 11
+  { id: 'geo-11-climate-notes',          subject: 'geography',           grade: 'grade-11', type: 'notes',      title: 'Climate & Weather',             topics: 'pressure, fronts, biomes',         file: 'content/geography/grade-11/climate-notes.html' },
+  { id: 'geo-11-climate-test',           subject: 'geography',           grade: 'grade-11', type: 'assessment', title: 'Climate & Weather — Assessment', topics: 'pressure, fronts, biomes',         file: 'content/geography/grade-11/climate-assessment.html' },
+  // Grade 12
+  { id: 'geo-12-development-notes',      subject: 'geography',           grade: 'grade-12', type: 'notes',      title: 'Development Geography',         topics: 'HDI, urbanisation, globalisation', file: 'content/geography/grade-12/development-notes.html' },
+  { id: 'geo-12-development-test',       subject: 'geography',           grade: 'grade-12', type: 'assessment', title: 'Development — Assessment',       topics: 'HDI, urbanisation, globalisation', file: 'content/geography/grade-12/development-assessment.html' },
+];
+
+// ── Subject metadata ─────────────────────────────────────────
+var SUBJECTS = [
+  { key: 'mathematics',          label: 'Mathematics',           icon: '📐', color: '#0B1F3A' },
+  { key: 'physical-science',     label: 'Physical Science',      icon: '⚗️',  color: '#0B3D2E' },
+  { key: 'accounting',           label: 'Accounting',            icon: '📊', color: '#3D1A0B' },
+  { key: 'economics',            label: 'Economics',             icon: '💹', color: '#1A0B3D' },
+  { key: 'mathematical-literacy',label: 'Mathematical Literacy', icon: '🔢', color: '#0B2E3D' },
+  { key: 'geography',            label: 'Geography',             icon: '🌍', color: '#2E3D0B' },
+];
+
+// ── State ────────────────────────────────────────────────────
+var state = {
+  grade:   'grade-10',
+  type:    'all',
+  subject: 'mathematics',
+  search:  '',
+};
+var currentFile = '';
+var currentTitle = '';
+
+// ── Init ─────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', function() {
+  buildSubjectNav();
+  renderCards();
+  updateHero();
+  updateContentCount();
+});
+
+function buildSubjectNav() {
+  var nav = document.getElementById('subject-nav');
+  nav.innerHTML = SUBJECTS.map(function(s) {
+    var count = CONTENT.filter(function(c){ return c.subject === s.key; }).length;
+    return '<button class="subject-item' + (s.key === state.subject ? ' active' : '') + '" '
+      + 'onclick="setSubject(\'' + s.key + '\')" data-subject="' + s.key + '">'
+      + '<div class="subject-icon" style="background:' + s.color + '20">' + s.icon + '</div>'
+      + '<div class="subject-info">'
+      + '<div class="subject-name">' + s.label + '</div>'
+      + '<div class="subject-count">' + count + ' resources</div>'
+      + '</div></button>';
+  }).join('');
+}
+
+function setGrade(g) {
+  state.grade = g;
+  document.querySelectorAll('.grade-btn').forEach(function(b) {
+    var matches = (g === 'grade-10' && b.textContent.trim() === 'Grade 10')
+               || (g === 'grade-11' && b.textContent.trim() === 'Grade 11')
+               || (g === 'grade-12' && b.textContent.trim() === 'Grade 12');
+    b.classList.toggle('active', matches);
+  });
+  renderCards();
+  updateHero();
+}
+
+function setType(t) {
+  state.type = t;
+  document.querySelectorAll('.type-btn').forEach(function(b) {
+    b.classList.toggle('active', b.textContent.toLowerCase().includes(t === 'all' ? 'all' : t === 'notes' ? 'notes' : 'test'));
+  });
+  renderCards();
+}
+
+function setSubject(s) {
+  state.subject = s;
+  document.querySelectorAll('.subject-item').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.subject === s);
+  });
+  renderCards();
+  updateHero();
+}
+
+function updateHero() {
+  var subj = SUBJECTS.find(function(s){ return s.key === state.subject; });
+  var gradeLabel = state.grade === 'grade-11' ? 'Grade 11' : 'Grade 12';
+  document.getElementById('hero-title').textContent =
+    (subj ? subj.icon + '  ' + subj.label : 'Learning Hub') + ' — ' + gradeLabel;
+  document.getElementById('hero-sub').textContent =
+    'Browse notes and assessments. Click any resource to view or download.';
+}
+
+function updateContentCount() {
+  var total = CONTENT.length;
+  document.getElementById('content-count').textContent = total + ' resources';
+}
+
+function renderCards() {
+  var search  = (document.getElementById('search-input').value || '').toLowerCase();
+  var grid    = document.getElementById('content-grid');
+  var heading = document.getElementById('section-heading');
+
+  var filtered = CONTENT.filter(function(c) {
+    if (c.subject !== state.subject) return false;
+    if (c.grade !== state.grade) return false;
+    if (state.type !== 'all' && c.type !== state.type) return false;
+    if (search && !c.title.toLowerCase().includes(search) &&
+        !c.topics.toLowerCase().includes(search)) return false;
+    return true;
+  });
+
+  var gradeLabel = state.grade === 'grade-11' ? 'Grade 11' : 'Grade 12';
+  var typeLabel  = state.type === 'all' ? 'All Resources' : state.type === 'notes' ? 'Notes' : 'Assessments';
+  heading.textContent = gradeLabel + ' — ' + typeLabel + ' (' + filtered.length + ')';
+
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="empty-state">'
+      + '<div class="empty-icon">🔍</div>'
+      + '<div class="empty-title">No resources found</div>'
+      + '<div class="empty-sub">Try changing the grade, type or search term</div>'
+      + '</div>'
+      + '<div class="upload-card">'
+      + '<div class="upload-card-title">📂 Add Your HTML Files Here</div>'
+      + '<div class="upload-card-sub">Upload your HTML assessment or notes files to the correct folder:</div>'
+      + '<code class="upload-path">content/' + state.subject + '/' + state.grade + '/your-file.html</code><br>'
+      + '<div class="upload-card-sub" style="margin-top:12px;font-size:12px;color:#7A8FA6">Then register them in the CONTENT array in index.html</div>'
+      + '</div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(function(c) {
+    var subj   = SUBJECTS.find(function(s){ return s.key === c.subject; });
+    var color  = subj ? subj.color : '#0B1F3A';
+    var isNote = c.type === 'notes';
+    return '<div class="content-card" onclick="openViewer(\'' + c.file + '\',\'' + escHtml(c.title) + '\')">'
+      + '<div class="card-stripe" style="background:' + (isNote ? 'var(--gold)' : 'var(--teal)') + '"></div>'
+      + '<div class="card-body">'
+      + '<span class="card-type-badge ' + (isNote ? 'badge-notes' : 'badge-assessment') + '">'
+      + (isNote ? '📖 Notes' : '✏️ Assessment') + '</span>'
+      + '<div class="card-title">' + c.title + '</div>'
+      + '<div class="card-meta">' + c.topics + '</div>'
+      + '<div class="card-actions">'
+      + '<button class="btn-view" onclick="openViewer(\'' + c.file + '\',\'' + escHtml(c.title) + '\');event.stopPropagation()">'
+      + '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>'
+      + 'View</button>'
+      + '<button class="btn-download" onclick="downloadFile(\'' + c.file + '\',\'' + escHtml(c.title) + '\');event.stopPropagation()">'
+      + '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>'
+      + 'Download</button>'
+      + '</div></div></div>';
+  }).join('');
+}
+
+function openViewer(file, title) {
+  currentFile  = file;
+  currentTitle = title;
+  document.getElementById('viewer-title').textContent = title;
+  document.getElementById('viewer-frame').src = file;
+  document.getElementById('viewer-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeViewer() {
+  document.getElementById('viewer-overlay').classList.remove('open');
+  document.getElementById('viewer-frame').src = '';
+  document.body.style.overflow = '';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('viewer-overlay')) closeViewer();
+}
+
+function downloadCurrent() {
+  downloadFile(currentFile, currentTitle);
+}
+
+function downloadFile(file, title) {
+  // Open in new tab — browser print → Save as PDF
+  var win = window.open(file, '_blank');
+  if (win) {
+    win.addEventListener('load', function() {
+      setTimeout(function() { win.print(); }, 800);
+    });
+  }
+}
+
+function escHtml(str) {
+  return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+}
+
+// ── Receive subject filter from parent portal via postMessage ─
+window.addEventListener('message', function(e) {
+  var d = e.data;
+  if (!d || d.source !== 'kae-portal') return;
+  if (d.subject) setSubject(d.subject.toLowerCase().replace(/\s+/g, '-'));
+  if (d.grade)   setGrade('grade-' + String(d.grade).replace('grade-', '').replace(/\s+/g, '-'));
+});
+</script>
+</body>
+</html>

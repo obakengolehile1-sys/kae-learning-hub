@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Functions & Graphs — Grade 11 Mathematics | KAE</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- Load MathJax for mathematical notation if needed -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root {
+  --navy: #0B1F3A; --teal: #00B4A6; --gold: #C9A84C;
+  --slate: #F4F6F9; --text: #1A2B3C; --text-mid: #445566;
+  --font-head: 'DM Serif Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-body); color: var(--text); background: #fff; padding: 32px; max-width: 860px; margin: 0 auto; }
+@media print { body { padding: 16px; } .no-print { display: none !important; } }
+
+/* Header */
+.doc-header { background: var(--navy); color: #fff; border-radius: 12px; padding: 28px 32px; margin-bottom: 28px; }
+.doc-kae { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); margin-bottom: 6px; }
+.doc-title { font-family: var(--font-head); font-size: 28px; margin-bottom: 4px; }
+.doc-meta { font-size: 13px; color: rgba(255,255,255,.6); display: flex; gap: 16px; flex-wrap: wrap; }
+.doc-badge { background: rgba(201,168,76,.2); color: var(--gold); padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+
+/* Instructions box */
+.instructions { background: #FFF8E7; border-left: 4px solid var(--gold); border-radius: 0 8px 8px 0; padding: 14px 18px; margin-bottom: 24px; font-size: 13px; color: var(--text-mid); line-height: 1.7; }
+.instructions strong { color: var(--navy); }
+
+/* Section headings */
+h2 { font-family: var(--font-head); font-size: 20px; color: var(--navy); margin: 28px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--teal); }
+h3 { font-size: 15px; font-weight: 600; color: var(--navy); margin: 18px 0 8px; }
+p { font-size: 14px; line-height: 1.8; color: var(--text-mid); margin-bottom: 12px; }
+
+/* Question styling */
+.question { background: var(--slate); border-radius: 10px; padding: 18px 20px; margin-bottom: 16px; border-left: 3px solid var(--teal); }
+.question-num { font-size: 11px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.question-text { font-size: 14px; color: var(--text); line-height: 1.7; margin-bottom: 12px; }
+.question-marks { font-size: 11px; color: var(--text-mid); font-style: italic; }
+
+/* Answer lines */
+.answer-lines { margin-top: 12px; }
+.answer-line { border-bottom: 1px solid #CBD5E0; margin-bottom: 10px; height: 24px; }
+
+/* Multiple choice */
+.mc-options { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.mc-option { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--text); cursor: pointer; }
+.mc-option input[type="radio"] { margin-top: 3px; accent-color: var(--teal); cursor: pointer; }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+th { background: var(--navy); color: #fff; padding: 10px 14px; text-align: left; font-weight: 600; }
+td { padding: 9px 14px; border-bottom: 1px solid #E2E8F0; }
+tr:nth-child(even) td { background: var(--slate); }
+
+/* Info box */
+.info-box { background: rgba(0,180,166,.08); border: 1px solid rgba(0,180,166,.3); border-radius: 10px; padding: 16px 18px; margin: 16px 0; }
+.info-box-title { font-size: 12px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+
+/* Print button */
+.print-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: var(--navy); color: #fff; border: none; border-radius: 8px; font-family: var(--font-body); font-size: 13px; font-weight: 600; cursor: pointer; margin-bottom: 24px; }
+.print-btn:hover { opacity: .85; }
+
+/* Score section */
+.score-box { background: var(--slate); border-radius: 10px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; margin-top: 24px; }
+.score-label { font-size: 13px; color: var(--text-mid); }
+.score-total { font-family: var(--font-head); font-size: 22px; color: var(--navy); }
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">
+  🖨️ Print / Download PDF
+</button>
+
+<!-- Document Header -->
+<div class="doc-header">
+  <div class="doc-kae">Kgatelopele Academy for Excellence</div>
+  <h1 class="doc-title">Functions &amp; Graphs</h1>
+  <div class="doc-meta">
+    <span>Grade 11 Mathematics</span>
+    <span>CAPS Aligned</span>
+    <span class="doc-badge">Assessment</span>
+    <span>Total: 50 marks</span>
+    <span>Time: 60 minutes</span>
+  </div>
+</div>
+
+<!-- Instructions -->
+<div class="instructions">
+  <strong>Instructions:</strong> Answer ALL questions. Show ALL working where applicable.
+  Calculators are permitted unless stated otherwise. Leave answers in simplified surd form where necessary.
+</div>
+
+<!-- ── SECTION A: Multiple Choice ──────────────────────────── -->
+<h2>Section A — Multiple Choice (10 marks)</h2>
+<p>Choose the letter of the correct answer for each question.</p>
+
+<div class="question">
+  <div class="question-num">Question 1</div>
+  <div class="question-text">Which of the following is the equation of a parabola with vertex at (2, -3) and opening upward?</div>
+  <div class="mc-options">
+    <label class="mc-option"><input type="radio" name="q1" value="A"> A) &nbsp; y = (x - 2)² + 3</label>
+    <label class="mc-option"><input type="radio" name="q1" value="B"> B) &nbsp; y = (x + 2)² - 3</label>
+    <label class="mc-option"><input type="radio" name="q1" value="C"> C) &nbsp; y = (x - 2)² - 3</label>
+    <label class="mc-option"><input type="radio" name="q1" value="D"> D) &nbsp; y = -(x - 2)² - 3</label>
+  </div>
+  <div class="question-marks">(2 marks)</div>
+</div>
+
+<div class="question">
+  <div class="question-num">Question 2</div>
+  <div class="question-text">The asymptotes of the function \( f(x) = \dfrac{3}{x-1} + 2 \) are:</div>
+  <div class="mc-options">
+    <label class="mc-option"><input type="radio" name="q2" value="A"> A) &nbsp; x = 1 and y = 2</label>
+    <label class="mc-option"><input type="radio" name="q2" value="B"> B) &nbsp; x = -1 and y = 2</label>
+    <label class="mc-option"><input type="radio" name="q2" value="C"> C) &nbsp; x = 1 and y = -2</label>
+    <label class="mc-option"><input type="radio" name="q2" value="D"> D) &nbsp; x = 3 and y = 2</label>
+  </div>
+  <div class="question-marks">(2 marks)</div>
+</div>
+
+<div class="question">
+  <div class="question-num">Question 3</div>
+  <div class="question-text">The graph of \( y = 2^{x-1} \) is obtained from \( y = 2^x \) by shifting it:</div>
+  <div class="mc-options">
+    <label class="mc-option"><input type="radio" name="q3" value="A"> A) &nbsp; 1 unit upward</label>
+    <label class="mc-option"><input type="radio" name="q3" value="B"> B) &nbsp; 1 unit to the right</label>
+    <label class="mc-option"><input type="radio" name="q3" value="C"> C) &nbsp; 1 unit to the left</label>
+    <label class="mc-option"><input type="radio" name="q3" value="D"> D) &nbsp; 1 unit downward</label>
+  </div>
+  <div class="question-marks">(2 marks)</div>
+</div>
+
+<!-- ── SECTION B: Short Questions ──────────────────────────── -->
+<h2>Section B — Short Questions (20 marks)</h2>
+
+<div class="question">
+  <div class="question-num">Question 4</div>
+  <div class="question-text">Given: \( f(x) = -2(x+1)^2 + 8 \)</div>
+  <h3>4.1 &nbsp; State the coordinates of the turning point.</h3>
+  <div class="answer-lines">
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+  </div>
+  <h3>4.2 &nbsp; Write down the equation of the axis of symmetry.</h3>
+  <div class="answer-lines">
+    <div class="answer-line"></div>
+  </div>
+  <h3>4.3 &nbsp; Calculate the x-intercepts.</h3>
+  <div class="answer-lines">
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+  </div>
+  <h3>4.4 &nbsp; For which values of x is f(x) ≥ 0?</h3>
+  <div class="answer-lines">
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+  </div>
+  <div class="question-marks">(8 marks)</div>
+</div>
+
+<div class="question">
+  <div class="question-num">Question 5</div>
+  <div class="question-text">
+    The graph of \( g(x) = \dfrac{a}{x+p} + q \) passes through (3, 5) and has asymptotes at x = -1 and y = 3.
+  </div>
+  <h3>5.1 &nbsp; Write down the values of p and q.</h3>
+  <div class="answer-lines">
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+  </div>
+  <h3>5.2 &nbsp; Find the value of a.</h3>
+  <div class="answer-lines">
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+  </div>
+  <div class="question-marks">(5 marks)</div>
+</div>
+
+<!-- ── SECTION C: Extended Response ────────────────────────── -->
+<h2>Section C — Extended Response (20 marks)</h2>
+
+<div class="question">
+  <div class="question-num">Question 6</div>
+  <div class="question-text">
+    The functions \( f(x) = x^2 - 2x - 3 \) and \( g(x) = x + 1 \) are drawn on the same set of axes.
+  </div>
+  <h3>6.1 &nbsp; Determine the x-intercepts of f.</h3>
+  <div class="answer-lines">
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+  </div>
+  <h3>6.2 &nbsp; Find the coordinates of the intersection of f and g.</h3>
+  <div class="answer-lines">
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+  </div>
+  <h3>6.3 &nbsp; For which values of x is f(x) ≤ g(x)?</h3>
+  <div class="answer-lines">
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+  </div>
+  <div class="question-marks">(10 marks)</div>
+</div>
+
+<!-- Score box -->
+<div class="score-box">
+  <div class="score-label">Total marks available</div>
+  <div class="score-total">50 marks</div>
+</div>
+
+<!-- KAE Footer -->
+<div style="margin-top:32px;padding-top:16px;border-top:2px solid #E2E8F0;text-align:center;">
+  <p style="font-size:12px;color:#7A8FA6">Kgatelopele Academy for Excellence &nbsp;|&nbsp; kae-edu.co.za &nbsp;|&nbsp; Guided by Expert Professionals</p>
+</div>
+
+</body>
+</html>
